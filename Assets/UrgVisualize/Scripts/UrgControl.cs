@@ -19,7 +19,7 @@ public class UrgControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        urg = gameObject.AddComponent<UrgDeviceEthernet>();
+        urg = GetComponent<UrgDeviceEthernet>();
         urg.StartTCP(ip, port);
         urg.Write(SCIP_library.SCIP_Writer.MD(startStep, endStep));
     }
