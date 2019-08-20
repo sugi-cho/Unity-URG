@@ -56,7 +56,7 @@ public class UrgVisualize : MonoBehaviour
         var dir = (Vector2)sensingAreaTrs.InverseTransformDirection(transform.forward);
         var sensorAngle = Mathf.Atan2(dir.y, dir.x);
         urgPos.Set(pos.x, pos.y, sensorAngle, 0);
-        urgProps.Set(urgControl.endStep, urgControl.angleOffset * Mathf.Deg2Rad, urgControl.angleDelta * Mathf.Deg2Rad, 0);
+        urgProps.Set(urgControl.endStep, urgControl.angleOffset * Mathf.Deg2Rad, 1f / (urgControl.angleDelta * Mathf.Deg2Rad), 0);
 
         sensingAreaRenderer.GetPropertyBlock(mpb);
         distanceDataBuffer.SetData(ds);

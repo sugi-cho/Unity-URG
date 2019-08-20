@@ -28,6 +28,9 @@ public class UrgDeviceEthernet : UrgDevice
 	private string ip_address = "192.168.0.10";
 	private int port_number = 10940;
 
+    public Action<List<long>> onReadMD;
+    public Action<List<long>, List<long>> onReadME;
+
 	public void StartTCP(string ip = "192.168.0.10", int port = 10940)
     {
 //		messageQueue = Queue.Synchronized(new Queue());
@@ -44,8 +47,6 @@ public class UrgDeviceEthernet : UrgDevice
 			
 			Debug.Log("Connect setting = IP Address : " + ip_address + " Port number : " + port_number.ToString());
             
-//			this.listenThread = new Thread(new ThreadStart(ListenForClients));
-//			this.listenThread.Start();
 
 			ListenForClients();
         } catch (Exception ex) {
@@ -111,10 +112,14 @@ public class UrgDeviceEthernet : UrgDevice
 						if(cmd == GetCMDString(CMD.MD)){
 							distances.Clear();
 							SCIP_Reader.MD(receive_data, ref time_stamp, ref distances);
+                            if (onReadMD != null)
+                                onReadMD.Invoke(distances);
 						}else if(cmd == GetCMDString(CMD.ME)){
 							distances.Clear();
 							strengths.Clear();
 							SCIP_Reader.ME(receive_data, ref time_stamp, ref distances, ref strengths);
+                            if (onReadME != null)
+                                onReadME.Invoke(distances, strengths);
 						}else{
 							Debug.Log(">>"+receive_data);
 						}
@@ -138,31 +143,6 @@ public class UrgDeviceEthernet : UrgDevice
 		string[] split_command = get_command.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 		return split_command[0].StartsWith(cmd);
 	}
-
-//	void Update()
-//	{
-//		lock(messageQueue.SyncRoot){
-//			if(messageQueue.Count > 0){
-//				string receive_data = messageQueue.Dequeue().ToString();
-//				long time_stamp;
-//				if(CheckCommand(receive_data, "MD")){
-//					distances.Clear();
-//					time_stamp = 0;
-//
-//					SCIP_Reader.MD(receive_data, ref time_stamp, ref distances);
-//					//Debug.Log("time stamp: " + time_stamp.ToString() + " / count: "+distances.Count);
-//				}else if(CheckCommand(receive_data, "GD")){
-//					distances.Clear();
-//					time_stamp = 0;
-//
-//					SCIP_Reader.GD(receive_data, ref time_stamp, ref distances);
-//				}else{
-//					Debug.Log(">>"+receive_data);
-//				}
-//			}
-//		}
-//		
-//	}
 
 
     /// <summary>

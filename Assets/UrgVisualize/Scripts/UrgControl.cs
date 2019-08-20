@@ -35,9 +35,9 @@ public class UrgControl : MonoBehaviour
             var forward = transform.forward;
             for (var i = 0; i < distances.Count; i++)
             {
-                var angle = angleOffset - i * angleDelta;
-                var x = Mathf.Sin(angle * Mathf.Deg2Rad);
-                var y = Mathf.Cos(angle * Mathf.Deg2Rad);
+                var angle = i * angleDelta - angleOffset + 90f;
+                var x = Mathf.Cos(angle * Mathf.Deg2Rad);
+                var y = Mathf.Sin(angle * Mathf.Deg2Rad);
                 var d = distances[i] * 0.001f;
 
                 var pos = (x * right + y * forward) * d;

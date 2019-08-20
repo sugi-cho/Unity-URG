@@ -49,18 +49,24 @@
             {
 				float2 vec = i.lPos - _UrgPos.xy;
 				float angle = atan2(vec.y,vec.x) - _UrgPos.z;
+				//float angle = acos(dot(normalize(vec), float2(1,0)))*sign(vec.y) - _UrgPos.z;
 				float dist = length(vec);
 
 				angle += (angle < -UNITY_PI)? 2*UNITY_PI:0;
 				angle -= (UNITY_PI < angle) ? 2*UNITY_PI:0;
 
 				float t = angle + _UrgProps.y;
-				t *= 1.0/_UrgProps.z;
+				t *= _UrgProps.z;
 
 				int step = floor(t);
-				float data = _UrgData[step];
+				t = frac(t);
+				float d0 = _UrgData[step-1];
+				float d1 = _UrgData[step];
+				float delta = d1 - d0;
 
-                return dist < data;
+				float data = lerp(d0, lerp(d0,d1,t), abs(delta) < 0.2);
+
+                return  (dist < data) * (half4(1,1,1,1) - half4(0,1,1,0) * (delta < -0.2) - half4(1,1,0,0) * (0.2 < delta));
             }
             ENDCG
         }
