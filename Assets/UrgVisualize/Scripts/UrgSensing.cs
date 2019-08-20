@@ -62,6 +62,7 @@ public class UrgSensing : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireCube(sensingArea.center, sensingArea.size);
         Gizmos.color = Color.green;
         if (lockObj != null)

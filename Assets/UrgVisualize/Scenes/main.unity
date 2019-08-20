@@ -378,10 +378,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objThreshold: 0.1
-  minWidth: 0.01
+  minWidth: 0.05
   sensingArea:
-    m_Center: {x: 0, y: 0, z: 1.5}
-    m_Extent: {x: 2, y: 0, z: 1}
+    m_Center: {x: 0, y: 0, z: 1}
+    m_Extent: {x: 2, y: 0, z: 0.7}
   sensedObjs:
   - p0: {x: 0.8294951, y: 0, z: 1.9781213}
     p1: {x: 0.5437526, y: 0, z: 2.141031}
